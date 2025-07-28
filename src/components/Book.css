@@ -1,76 +1,83 @@
+/* כרטיס ספר */
 .book-card {
-  background: linear-gradient(135deg, #ffffff, #f7f7f7);
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #f9f9ff);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  padding: 22px;
   margin: 20px;
-  max-width: 300px;
+  max-width: 320px;
   width: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   position: relative;
+  border: 1px solid #e0e0e0;
 }
 
 .book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
 .book-card h2 {
   margin-top: 0;
-  font-size: 1.3rem;
-  color: #333;
+  font-size: 1.4rem;
+  color: #2d2d2d;
+  margin-bottom: 10px;
 }
 
 .book-card p {
-  margin: 6px 0;
+  margin: 4px 0;
   font-size: 0.95rem;
   color: #555;
 }
 
-/* מצבים */
+/* מצבים מיוחדים */
 .book-card.purchased {
-  background: #e9f9ec;
-  border-left: 5px solid #4caf50;
+  background: linear-gradient(135deg, #e8f5e9, #d0f0d4);
+  border-left: 6px solid #4caf50;
 }
 
 .book-card.out-of-stock {
   opacity: 0.6;
   pointer-events: none;
-  border-left: 5px solid #999;
+  border-left: 6px solid #9e9e9e;
+  background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
 }
 
 .book-card.on-sale {
-  background: linear-gradient(135deg, #ffe082, #ffd54f);
-  border: 2px dashed #ff9800;
-  font-weight: bold;
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  border: 2px dashed #ffa000;
   color: #5d4037;
 }
 
-/* פרטי הספר */
+/* תיאור */
 .book-details {
-  margin-top: 10px;
-  font-size: 0.9rem;
+  margin-top: 12px;
+  font-size: 0.92rem;
   color: #666;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 /* כפתורים */
 .book-actions button,
 .book-list-actions button {
-  margin: 6px 4px;
-  padding: 8px 14px;
+  margin: 6px 5px;
+  padding: 9px 15px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #1976d2;
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 0.87rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .book-actions button:hover,
 .book-list-actions button:hover {
-  background-color: #1565c0;
+  background-color: #0d47a1;
 }
 
 .book-list-actions .add {
@@ -78,7 +85,7 @@
 }
 
 .book-list-actions .add:hover {
-  background-color: #388e3c;
+  background-color: #2e7d32;
 }
 
 .book-list-actions .remove {
@@ -86,14 +93,35 @@
 }
 
 .book-list-actions .remove:hover {
-  background-color: #c62828;
+  background-color: #b71c1c;
 }
 
-/* רשת הספרים */
+/* קופה וריקון */
+.book-card .book-total {
+  margin-top: 15px;
+  font-size: 1rem;
+  color: #212121;
+}
+
+.book-card .clear-btn {
+  background-color: #f44336;
+  margin-top: 10px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.book-card .clear-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* תצוגה כללית */
 .book-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 25px;
-  padding: 20px;
+  gap: 30px;
+  padding: 30px;
+  max-width: 100%;
+  box-sizing: border-box;
 }

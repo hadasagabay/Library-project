@@ -1,20 +1,40 @@
 import { useState } from 'react';
 
-
 function Book({ title, author, description, price, inStock, discount }) {
   const [isPurchased, setIsPurchased] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [inList, setInList] = useState(false);
+  const [cartTotal, setCartTotal] = useState(0);
 
-  const togglePurchase = () => setIsPurchased(!isPurchased);
-  const increaseQuantity = () => setQuantity(quantity + 1);
+  const togglePurchase = () => {
+    const total = quantity * (discount ? price - (price * discount / 100) : price);
+    setIsPurchased(!isPurchased);
+    setCartTotal(!isPurchased ? cartTotal + total : cartTotal - total);
+  };
+
+  const increaseQuantity = () => {
+    const newQty = quantity + 1;
+    setQuantity(newQty);
+    if (isPurchased) {
+      const pricePerBook = discount ? price - (price * discount / 100) : price;
+      setCartTotal(cartTotal + pricePerBook);
+    }
+  };
+
   const toggleDetails = () => setShowDetails(!showDetails);
   const addToList = () => setInList(true);
   const removeFromList = () => setInList(false);
 
-  // תנאים לעיצוב:
+  const clearCart = () => {
+    setCartTotal(0);
+    setIsPurchased(false);
+    setQuantity(1);
+  };
+
   const isOnSale = discount >= 30;
+  const discountedPrice = discount ? price - (price * discount / 100) : price;
+
   const cardClass = `
     book-card 
     ${isPurchased ? 'purchased' : ''} 
@@ -25,38 +45,58 @@ function Book({ title, author, description, price, inStock, discount }) {
   return (
     <div className={cardClass}>
       <h2>{title}</h2>
-      <p>מאת: {author}</p>
-      <p>מחיר: ₪{price}</p>
-      {discount ? <p>הנחה: {discount}%</p> : null}
+      <p>מאת: {author || 'לא ידוע'}</p>
+
+      {discount ? (
+        <>
+          <p style={{ textDecoration: 'line-through', color: 'gray' }}>
+            מחיר רגיל: ₪{price}
+          </p>
+          <p style={{ fontWeight: 'bold', color: 'green' }}>
+            מחיר אחרי הנחה: ₪{discountedPrice.toFixed(2)}
+          </p>
+          <p>הנחה: {discount}%</p>
+        </>
+      ) : (
+        <p>מחיר: ₪{price}</p>
+      )}
 
       {showDetails && (
         <div className="book-details">
-          <strong>תיאור:</strong> {description}
+          <strong>תיאור:</strong> {description || 'אין תיאור זמין'}
         </div>
       )}
 
       <div className="book-actions">
         {inStock && (
           <button onClick={togglePurchase}>
-            {isPurchased ? 'Cancel a purchase' : '✔️ acquired'}
+            {isPurchased ? '❌ ביטול רכישה' : '✔️ הוספה לקופה'}
           </button>
         )}
         <button onClick={toggleDetails}>
-          {showDetails ? 'Hide details' : 'show details'}
+          {showDetails ? 'הסתר פרטים' : 'הצג פרטים'}
         </button>
-        <button onClick={increaseQuantity}>📚 amount: {quantity}</button>
+        <button onClick={increaseQuantity}>📚 כמות: {quantity}</button>
       </div>
 
-      <div className="book-list-actions">
+      {/* <div className="book-list-actions">
         {!inList ? (
           <button className="add" onClick={addToList}>
-            ➕ Add to list
+            ➕ הוסף לרשימה
           </button>
         ) : (
           <button className="remove" onClick={removeFromList}>
-            ❌ Remove from list
+            ❌ הסר מהרשימה
           </button>
         )}
+      </div> */}
+
+      <hr />
+      <div style={{ marginTop: '10px' }}>
+        <p><strong>💰 סך הכל בקופה:</strong> ₪{cartTotal.toFixed(2)}</p>
+        <button onClick={clearCart} style={{ background: '#e53935', color: 'white', padding: '6px 10px', borderRadius: '6px', border: 'none' }}>
+          🗑️ רוקן קופה
+        </button>
       </div>
     </div>
   );
